@@ -342,16 +342,31 @@ class Application(Gtk.Application):
         game.play()
 
     def get_game_by_id(self, game_id):
-        for game in self.running_games:
+        #return
+        i = 0
+        game = self.running_games.get_item(i)
+        while game is not None:
             if game.id == game_id:
                 return game
+            i += 1
+            game = self.running_games.get_item(i)
+
+        #for game in self.running_games.generate_games:
+        #    if game.id == game_id:
+        #        return game
 
     def on_game_stop(self, game):
         """Callback to remove the game from the running games"""
         game_index = None
-        for i, running_game in enumerate(self.running_games):
+
+        i = 0
+        game = self.running_games.get_item(i)
+        while game is not None:
             if game is running_game:
                 game_index = i
+            i += 1
+            game = self.running_games.get_item(i)
+
         if game_index is not None:
             self.running_games.remove(game_index)
         game.emit("game-stopped", game.id)
